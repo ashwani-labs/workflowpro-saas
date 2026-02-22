@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Card,
+  Divider,
   Stack,
   TextField,
   Typography,
@@ -14,6 +15,7 @@ import AnimatedPage from '../components/AnimatedPage'
 import { useRegisterMutation } from '../api/authApi'
 import { useAppDispatch } from '../app/hooks'
 import { login } from '../features/authSlice'
+import { GitHub, Google } from '@mui/icons-material'
 
 const MotionCard = motion.create(Card)
 
@@ -62,15 +64,56 @@ export default function Register() {
           initial={{ opacity: 0, scale: 0.98, y: 10 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          sx={{ width: '100%', p: { xs: 2.5, sm: 3.5 }, borderRadius: 4 }}
+          sx={(t) => ({
+            width: '100%',
+            p: { xs: 2.5, sm: 3.5 },
+            borderRadius: 4,
+            boxShadow: '0px 18px 60px rgba(15, 23, 42, 0.08)',
+            border: `1px solid ${t.palette.divider}`,
+            background: 'rgba(255,255,255,0.85)',
+            backdropFilter: 'blur(10px)',
+          })}
         >
-          <Stack spacing={2.2}>
+          <Stack spacing={2}>
             <Box>
-              <Typography variant="h5" sx={{ fontWeight: 820, letterSpacing: '-0.02em' }}>
+              <Typography variant="h5" sx={{ fontWeight: 860, letterSpacing: '-0.03em' }}>
                 Create your account
               </Typography>
-              <Typography color="text.secondary">Start organizing work in minutes.</Typography>
+              <Typography color="text.secondary" sx={{ mt: 0.4 }}>
+                Start organizing work in minutes.
+              </Typography>
             </Box>
+
+            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.2}>
+              <motion.div style={{ flex: 1 }} whileHover={{ y: -2 }} whileTap={{ scale: 0.99 }}>
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  color="inherit"
+                  startIcon={<Google />}
+                  onClick={() => setError('SSO placeholder (not wired yet).')}
+                >
+                  Sign up with Google
+                </Button>
+              </motion.div>
+              <motion.div style={{ flex: 1 }} whileHover={{ y: -2 }} whileTap={{ scale: 0.99 }}>
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  color="inherit"
+                  startIcon={<GitHub />}
+                  onClick={() => setError('SSO placeholder (not wired yet).')}
+                >
+                  Sign up with GitHub
+                </Button>
+              </motion.div>
+            </Stack>
+
+            <Divider>
+              <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 650 }}>
+                or create with email
+              </Typography>
+            </Divider>
 
             <TextField
               label="Name"
@@ -114,6 +157,10 @@ export default function Register() {
                 {isLoading ? 'Creating…' : 'Register'}
               </Button>
             </motion.div>
+
+            <Typography variant="caption" color="text.secondary" sx={{ textAlign: 'center', mt: -0.5 }}>
+              By continuing you agree to our Terms and Privacy Policy.
+            </Typography>
 
             <Button
               component={RouterLink}
