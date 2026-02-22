@@ -1,5 +1,6 @@
-package com.workflowpro.entity;
+package com.workflowpro.modules.project.entity;
 
+import com.workflowpro.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -33,8 +34,8 @@ public class Project extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "organization_id", nullable = false)
-    private Organization organization;
+    private com.workflowpro.modules.organization.entity.Organization organization;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Task> tasks = new HashSet<>();
+    private Set<com.workflowpro.modules.task.entity.Task> tasks = new HashSet<>();
 }

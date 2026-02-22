@@ -1,5 +1,6 @@
-package com.workflowpro.entity;
+package com.workflowpro.modules.organization.entity;
 
+import com.workflowpro.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -13,7 +14,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "organizations", indexes = {
-    @Index(name = "idx_organization_domain", columnList = "domain", unique = true)
+    @Index(name = "idx_organization_name", columnList = "name"),
+    @Index(name = "idx_organization_domain", columnList = "domain")
 })
 @Data
 @NoArgsConstructor
@@ -31,8 +33,8 @@ public class Organization extends BaseEntity {
     private String domain;
 
     @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<User> users = new HashSet<>();
+    private Set<com.workflowpro.modules.auth.entity.User> users = new HashSet<>();
 
     @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Project> projects = new HashSet<>();
+    private Set<com.workflowpro.modules.project.entity.Project> projects = new HashSet<>();
 }

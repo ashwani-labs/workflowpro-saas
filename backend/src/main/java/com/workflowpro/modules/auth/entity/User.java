@@ -1,5 +1,6 @@
-package com.workflowpro.entity;
+package com.workflowpro.modules.auth.entity;
 
+import com.workflowpro.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -44,14 +45,11 @@ public class User extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "organization_id", nullable = false)
-    private Organization organization;
+    private com.workflowpro.modules.organization.entity.Organization organization;
 
     @OneToMany(mappedBy = "assignedUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Task> assignedTasks = new HashSet<>();
+    private Set<com.workflowpro.modules.task.entity.Task> assignedTasks = new HashSet<>();
 
-    /**
-     * User role enumeration.
-     */
     public enum UserRole {
         ADMIN,
         MANAGER,

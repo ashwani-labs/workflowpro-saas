@@ -37,13 +37,9 @@ management:
       show-details: when_authorized
 
 # Application specific configuration
-workflowpro:
-  security:
-    jwt:
-      secret: ${JWT_SECRET:your-secret-key-here}
-      expiration: ${JWT_EXPIRATION:86400000} # 24 hours in milliseconds
-  tenant:
-    header: X-Tenant-ID
+jwt:
+  secret: workflowprosecretkeyworkflowprosecretkey
+  expiration: 86400000
 
 # Logging
 logging:

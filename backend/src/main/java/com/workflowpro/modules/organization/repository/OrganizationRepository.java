@@ -1,6 +1,6 @@
-package com.workflowpro.repository;
+package com.workflowpro.modules.organization.repository;
 
-import com.workflowpro.entity.Organization;
+import com.workflowpro.modules.organization.entity.Organization;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
