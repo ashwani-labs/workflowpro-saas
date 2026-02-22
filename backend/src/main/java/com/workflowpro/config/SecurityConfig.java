@@ -15,10 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-/**
- * Security configuration for WorkFlowPro application.
- * Configures JWT-ready authentication with stateless session management.
- */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity

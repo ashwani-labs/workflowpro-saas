@@ -8,10 +8,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-/**
- * Task entity for WorkFlowPro application.
- * Represents tasks within projects.
- */
 @Entity
 @Table(name = "tasks", indexes = {
     @Index(name = "idx_task_project", columnList = "project_id"),

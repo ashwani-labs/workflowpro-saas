@@ -9,10 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-/**
- * Tenant interceptor for validating tenant context.
- * Ensures that tenant ID is present for all protected endpoints.
- */
 @Component
 @Slf4j
 public class TenantInterceptor implements HandlerInterceptor {

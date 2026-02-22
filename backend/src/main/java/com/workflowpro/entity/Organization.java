@@ -11,10 +11,6 @@ import lombok.experimental.SuperBuilder;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Organization entity for WorkFlowPro application.
- * Represents organizations/tenants in the multi-tenant system.
- */
 @Entity
 @Table(name = "organizations", indexes = {
     @Index(name = "idx_organization_domain", columnList = "domain", unique = true)

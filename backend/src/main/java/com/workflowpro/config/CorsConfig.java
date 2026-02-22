@@ -9,10 +9,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * CORS configuration for WorkFlowPro application.
- * Allows frontend running on localhost:3000 to access the API.
- */
 @Configuration
 public class CorsConfig {
 

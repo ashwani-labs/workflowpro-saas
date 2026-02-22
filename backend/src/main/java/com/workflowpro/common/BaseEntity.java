@@ -2,16 +2,12 @@ package com.workflowpro.common;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
-/**
- * Base entity class for all JPA entities in WorkFlowPro.
- * Provides common fields like id, createdAt, and updatedAt.
- */
 @Data
 @NoArgsConstructor
 @SuperBuilder

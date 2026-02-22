@@ -12,17 +12,13 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Health check controller for WorkFlowPro application.
- * Provides basic health status endpoint.
- */
 @RestController
 @RequestMapping("/api")
 @Slf4j
 public class HealthController {
 
     @GetMapping("/health")
-    public ResponseEntity<ApiResponse<Map<String, String>>> healthCheck() {
+    public ResponseEntity<ApiResponse<Object>> healthCheck() {
         log.debug("Health check endpoint accessed");
         
         Map<String, String> status = new HashMap<>();
@@ -30,7 +26,7 @@ public class HealthController {
         status.put("application", "WorkFlowPro");
         status.put("timestamp", LocalDateTime.now().toString());
         
-        ApiResponse<Map<String, String>> response = ApiResponse.builder()
+        ApiResponse<Object> response = ApiResponse.builder()
                 .success(true)
                 .message("Application is running")
                 .data(status)

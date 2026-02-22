@@ -11,10 +11,6 @@ import lombok.experimental.SuperBuilder;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Project entity for WorkFlowPro application.
- * Represents projects within organizations.
- */
 @Entity
 @Table(name = "projects", indexes = {
     @Index(name = "idx_project_organization", columnList = "organization_id"),

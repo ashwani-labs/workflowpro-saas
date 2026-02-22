@@ -9,10 +9,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-/**
- * Tenant filter for extracting tenant ID from HTTP headers.
- * Extracts tenant ID from X-Tenant-ID header and sets it in TenantContext.
- */
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @Slf4j

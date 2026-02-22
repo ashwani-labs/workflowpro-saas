@@ -12,10 +12,6 @@ import lombok.experimental.SuperBuilder;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * User entity for WorkFlowPro application.
- * Represents users in the system with authentication and profile information.
- */
 @Entity
 @Table(name = "users", indexes = {
     @Index(name = "idx_user_email", columnList = "email"),

@@ -2,7 +2,6 @@ package com.workflowpro.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
@@ -12,10 +11,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-/**
- * Base entity class for all JPA entities in WorkFlowPro.
- * Provides common fields like UUID id, createdAt, and updatedAt with auditing.
- */
 @Data
 @NoArgsConstructor
 @SuperBuilder
