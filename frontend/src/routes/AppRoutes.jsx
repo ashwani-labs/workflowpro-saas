@@ -1,50 +1,36 @@
-import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
-import LoginPage from '../pages/LoginPage'
+import { AnimatePresence } from 'framer-motion'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
+import { useAppSelector } from '../app/hooks'
+import Landing from '../pages/Landing'
+import Login from '../pages/Login'
+import Register from '../pages/Register'
 import Dashboard from '../pages/Dashboard'
-import Projects from '../pages/Projects'
-import Tasks from '../pages/Tasks'
-import MainLayout from '../layouts/MainLayout'
-import ProtectedRoute from '../components/ProtectedRoute'
 
-const AppRoutes = () => {
-  const router = createBrowserRouter([
-    {
-      path: '/login',
-      element: <LoginPage />
-    },
-    {
-      path: '/',
-      element: (
-        <ProtectedRoute>
-          <MainLayout />
-        </ProtectedRoute>
-      ),
-      children: [
-        {
-          index: true,
-          element: <Navigate to="/dashboard" replace />
-        },
-        {
-          path: 'dashboard',
-          element: <Dashboard />
-        },
-        {
-          path: 'projects',
-          element: <Projects />
-        },
-        {
-          path: 'tasks',
-          element: <Tasks />
-        }
-      ]
-    },
-    {
-      path: '*',
-      element: <Navigate to="/dashboard" replace />
-    }
-  ])
-
-  return <RouterProvider router={router} />
+function RequireAuth({ children }) {
+  const isAuthenticated = useAppSelector((s) => s.auth.isAuthenticated)
+  if (!isAuthenticated) return <Navigate to="/login" replace />
+  return children
 }
 
-export default AppRoutes
+export default function AppRoutes() {
+  const location = useLocation()
+
+  return (
+    <AnimatePresence mode="wait" initial={false}>
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<Landing />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route
+          path="/dashboard"
+          element={
+            <RequireAuth>
+              <Dashboard />
+            </RequireAuth>
+          }
+        />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </AnimatePresence>
+  )
+}

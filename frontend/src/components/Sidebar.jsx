@@ -1,45 +1,75 @@
+import {
+  Box,
+  Drawer,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from '@mui/material'
+import {
+  DashboardRounded,
+  FolderRounded,
+  ChecklistRounded,
+  GroupsRounded,
+  SettingsRounded,
+} from '@mui/icons-material'
+import { NavLink } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { useSelector } from 'react-redux'
-import { useNavigate, useLocation } from 'react-router-dom'
 
-const Sidebar = () => {
-  const { mode } = useSelector((state) => state.theme)
-  const navigate = useNavigate()
-  const location = useLocation()
+const nav = [
+  { label: 'Dashboard', to: '/dashboard', icon: <DashboardRounded /> },
+  { label: 'Projects', to: '/dashboard?tab=projects', icon: <FolderRounded /> },
+  { label: 'Tasks', to: '/dashboard?tab=tasks', icon: <ChecklistRounded /> },
+  { label: 'Team', to: '/dashboard?tab=team', icon: <GroupsRounded /> },
+  { label: 'Settings', to: '/dashboard?tab=settings', icon: <SettingsRounded /> },
+]
 
-  const menuItems = [
-    { name: 'Dashboard', path: '/dashboard', icon: '📊' },
-    { name: 'Projects', path: '/projects', icon: '📁' },
-    { name: 'Tasks', path: '/tasks', icon: '✅' }
-  ]
-
+export default function Sidebar({ width = 280, open = true, variant = 'permanent', onClose }) {
   return (
-    <motion.aside 
-      className="w-64 bg-card-bg border-r border-border-color min-h-screen p-4"
-      initial={{ x: -300 }}
-      animate={{ x: 0 }}
-      transition={{ duration: 0.5 }}
+    <Drawer
+      open={open}
+      onClose={onClose}
+      variant={variant}
+      PaperProps={{
+        sx: (t) => ({
+          width,
+          borderRight: `1px solid ${t.palette.divider}`,
+          background: 'linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.75))',
+          backdropFilter: 'blur(14px)',
+        }),
+      }}
     >
-      <div className="space-y-2">
-        {menuItems.map((item) => (
-          <motion.button
-            key={item.name}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all duration-300 ${
-              location.pathname === item.path
-                ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white'
-                : 'hover:bg-secondary text-primary'
-            }`}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => navigate(item.path)}
+      <Box
+        component={motion.div}
+        initial={{ opacity: 0, x: -12 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+        sx={{ p: 2.5 }}
+      >
+        <Typography sx={{ fontWeight: 800, letterSpacing: '-0.02em' }}>Navigation</Typography>
+      </Box>
+
+      <List sx={{ px: 1.5, pb: 2 }}>
+        {nav.map((item) => (
+          <ListItemButton
+            key={item.label}
+            component={NavLink}
+            to={item.to}
+            sx={(t) => ({
+              borderRadius: 2,
+              mb: 0.75,
+              '&.active': {
+                backgroundColor: 'rgba(30, 58, 138, 0.08)',
+                border: `1px solid ${t.palette.divider}`,
+              },
+            })}
           >
-            <span className="text-xl">{item.icon}</span>
-            <span className="font-medium">{item.name}</span>
-          </motion.button>
+            <ListItemIcon sx={{ minWidth: 38 }}>{item.icon}</ListItemIcon>
+            <ListItemText primary={item.label} primaryTypographyProps={{ fontWeight: 650 }} />
+          </ListItemButton>
         ))}
-      </div>
-    </motion.aside>
+      </List>
+    </Drawer>
   )
 }
-
-export default Sidebar

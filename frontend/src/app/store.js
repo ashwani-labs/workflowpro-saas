@@ -1,16 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
-import authSlice from '../features/auth/authSlice'
-import projectSlice from '../features/projects/projectSlice'
-import taskSlice from '../features/tasks/taskSlice'
-import themeReducer from '../theme/themeSlice'
+import authReducer from '../features/authSlice'
+import { authApi } from '../api/authApi'
 
 export const store = configureStore({
   reducer: {
-    auth: authSlice,
-    projects: projectSlice,
-    tasks: taskSlice,
-    theme: themeReducer,
+    auth: authReducer,
+    [authApi.reducerPath]: authApi.reducer,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(authApi.middleware),
 })
-
-export default store

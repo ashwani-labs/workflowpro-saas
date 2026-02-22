@@ -1,87 +1,116 @@
+import { Box, Card, Grid, Stack, Typography } from '@mui/material'
 import { motion } from 'framer-motion'
-import Card from '../components/Card'
+import DashboardLayout from '../layouts/DashboardLayout'
+import AnimatedPage from '../components/AnimatedPage'
+import {
+  FolderRounded,
+  ChecklistRounded,
+  GroupsRounded,
+  BoltRounded,
+} from '@mui/icons-material'
 
-const Dashboard = () => {
-  const stats = [
-    { title: 'Total Projects', value: '12', icon: '📁', color: 'from-blue-500 to-blue-600' },
-    { title: 'Active Tasks', value: '48', icon: '✅', color: 'from-green-500 to-green-600' },
-    { title: 'Team Members', value: '8', icon: '👥', color: 'from-purple-500 to-purple-600' },
-    { title: 'Completed', value: '156', icon: '🎯', color: 'from-orange-500 to-orange-600' }
-  ]
+const MotionCard = motion.create(Card)
 
+const stats = [
+  { title: 'Total Projects', value: '12', icon: <FolderRounded /> },
+  { title: 'Tasks', value: '48', icon: <ChecklistRounded /> },
+  { title: 'Teams', value: '5', icon: <GroupsRounded /> },
+]
+
+export default function Dashboard() {
   return (
-    <div>
-      <motion.h1 
-        className="text-3xl font-bold mb-6"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        Dashboard
-      </motion.h1>
+    <AnimatedPage>
+      <DashboardLayout>
+        <Stack spacing={2.5}>
+          <Box>
+            <Typography variant="h4" sx={{ fontWeight: 850, letterSpacing: '-0.03em' }}>
+              Dashboard
+            </Typography>
+            <Typography color="text.secondary">
+              A quick snapshot of your workspace. (Demo placeholders)
+            </Typography>
+          </Box>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        {stats.map((stat, index) => (
-          <motion.div
-            key={stat.title}
-            initial={{ opacity: 0, y: 20 }}
+          <Grid container spacing={2.5}>
+            {stats.map((s, idx) => (
+              <Grid item xs={12} md={4} key={s.title}>
+                <MotionCard
+                  initial={{ opacity: 0, y: 18 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.55, delay: idx * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                  whileHover={{ y: -6 }}
+                  sx={{
+                    p: 2.5,
+                    borderRadius: 4,
+                    boxShadow: '0px 14px 50px rgba(15, 23, 42, 0.06)',
+                  }}
+                >
+                  <Stack direction="row" alignItems="center" justifyContent="space-between">
+                    <Box>
+                      <Typography color="text.secondary" sx={{ fontWeight: 650 }}>
+                        {s.title}
+                      </Typography>
+                      <Typography variant="h3" sx={{ fontWeight: 850, letterSpacing: '-0.03em' }}>
+                        {s.value}
+                      </Typography>
+                    </Box>
+                    <Box
+                      sx={(t) => ({
+                        width: 48,
+                        height: 48,
+                        borderRadius: 3,
+                        display: 'grid',
+                        placeItems: 'center',
+                        background: `linear-gradient(135deg, ${t.palette.primary.main}, ${t.palette.secondary.main})`,
+                        color: 'white',
+                        boxShadow: '0px 18px 45px rgba(30, 58, 138, 0.22)',
+                      })}
+                    >
+                      {s.icon}
+                    </Box>
+                  </Stack>
+                </MotionCard>
+              </Grid>
+            ))}
+          </Grid>
+
+          <MotionCard
+            initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
+            transition={{ duration: 0.55, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
+            sx={{ p: 2.5, borderRadius: 4, overflow: 'hidden' }}
           >
-            <Card>
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-secondary text-sm mb-1">{stat.title}</p>
-                  <p className="text-3xl font-bold">{stat.value}</p>
-                </div>
-                <div className={`w-12 h-12 rounded-full bg-gradient-to-r ${stat.color} flex items-center justify-center text-white text-xl`}>
-                  {stat.icon}
-                </div>
-              </div>
-            </Card>
-          </motion.div>
-        ))}
-      </div>
+            <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 1.5 }}>
+              <Typography sx={{ fontWeight: 820, letterSpacing: '-0.01em' }}>Recent Activity</Typography>
+              <Box display="flex" alignItems="center" gap={1} color="text.secondary">
+                <BoltRounded fontSize="small" />
+                <Typography variant="body2" color="text.secondary">
+                  Live feed coming soon
+                </Typography>
+              </Box>
+            </Stack>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-        >
-          <Card>
-            <h2 className="text-xl font-semibold mb-4">Recent Projects</h2>
-            <div className="space-y-3">
-              {['Website Redesign', 'Mobile App', 'Marketing Campaign'].map((project, index) => (
-                <div key={project} className="flex items-center justify-between p-3 bg-secondary rounded-lg">
-                  <span>{project}</span>
-                  <span className="text-sm text-secondary">Active</span>
-                </div>
+            <Stack spacing={1.2}>
+              {[1, 2, 3, 4].map((i) => (
+                <Box
+                  key={i}
+                  sx={(t) => ({
+                    p: 1.5,
+                    borderRadius: 3,
+                    border: `1px solid ${t.palette.divider}`,
+                    background: 'rgba(255,255,255,0.75)',
+                  })}
+                >
+                  <Typography sx={{ fontWeight: 700 }}>Activity item #{i}</Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Placeholder description for a recent action in your workspace.
+                  </Typography>
+                </Box>
               ))}
-            </div>
-          </Card>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-        >
-          <Card>
-            <h2 className="text-xl font-semibold mb-4">Upcoming Tasks</h2>
-            <div className="space-y-3">
-              {['Design Review', 'Client Meeting', 'Code Deployment'].map((task, index) => (
-                <div key={task} className="flex items-center justify-between p-3 bg-secondary rounded-lg">
-                  <span>{task}</span>
-                  <span className="text-sm text-secondary">Today</span>
-                </div>
-              ))}
-            </div>
-          </Card>
-        </motion.div>
-      </div>
-    </div>
+            </Stack>
+          </MotionCard>
+        </Stack>
+      </DashboardLayout>
+    </AnimatedPage>
   )
 }
-
-export default Dashboard
