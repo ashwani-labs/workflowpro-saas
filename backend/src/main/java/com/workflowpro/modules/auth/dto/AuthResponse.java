@@ -1,4 +1,4 @@
-package com.workflowpro.auth.dto;
+package com.workflowpro.modules.auth.dto;
 
 import lombok.Data;
 

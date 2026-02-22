@@ -1,4 +1,4 @@
-package com.workflowpro.common.exception;
+package com.workflowpro.exception;
 
 import lombok.Getter;
 

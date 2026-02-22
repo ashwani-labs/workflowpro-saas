@@ -15,20 +15,10 @@ public class CorsConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        
-        // Allow frontend origin
-        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
-        
-        // Allow all HTTP methods
+        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
-        
-        // Allow all headers
         configuration.setAllowedHeaders(List.of("*"));
-        
-        // Allow credentials
         configuration.setAllowCredentials(true);
-        
-        // Expose headers if needed
         configuration.setExposedHeaders(Arrays.asList("Authorization", "Content-Type"));
         
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

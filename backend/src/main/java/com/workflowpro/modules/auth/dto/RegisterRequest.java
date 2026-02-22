@@ -1,4 +1,4 @@
-package com.workflowpro.auth.dto;
+package com.workflowpro.modules.auth.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

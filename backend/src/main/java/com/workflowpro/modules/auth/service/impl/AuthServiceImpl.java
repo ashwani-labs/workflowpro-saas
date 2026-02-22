@@ -6,6 +6,7 @@ import com.workflowpro.modules.auth.dto.RegisterRequest;
 import com.workflowpro.modules.auth.entity.User;
 import com.workflowpro.modules.auth.mapper.UserMapper;
 import com.workflowpro.modules.auth.repository.UserRepository;
+import com.workflowpro.modules.auth.service.AuthService;
 import com.workflowpro.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,6 +15,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -49,7 +52,7 @@ public class AuthServiceImpl implements AuthService {
         );
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        User user = userRepository.findByEmail(userDetails.getUsername())
+        User user = userRepository.findByEmail(Objects.requireNonNull(userDetails).getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         String token = jwtService.generateToken(user.getEmail());

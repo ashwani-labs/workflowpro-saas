@@ -114,4 +114,16 @@ public class GlobalExceptionHandler {
                 
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+
+    @ExceptionHandler(ApiException.class)
+    public ResponseEntity<com.workflowpro.common.response.ApiResponse<Void>> handleApiException(ApiException ex) {
+        com.workflowpro.common.response.ApiResponse<Void> response = new com.workflowpro.common.response.ApiResponse<>(
+                false,
+                ex.getMessage(),
+                null,
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(response, HttpStatus.valueOf(ex.getStatusCode()));
+    }
 }
