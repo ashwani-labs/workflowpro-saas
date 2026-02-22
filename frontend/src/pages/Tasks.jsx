@@ -1,72 +1,82 @@
-import React from 'react'
-import { useQuery } from '@tanstack/react-query'
-import { TASK_STATUS } from '../utils/constants.js'
-
-// Mock API function - replace with actual API call
-const fetchTasks = async () => {
-  // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 1000))
-  return [
-    { id: 1, title: 'Design Homepage', description: 'Create mockups for homepage', status: 'IN_PROGRESS', priority: 'HIGH' },
-    { id: 2, title: 'API Documentation', description: 'Write comprehensive API docs', status: 'TODO', priority: 'MEDIUM' },
-    { id: 3, title: 'User Testing', description: 'Conduct user testing sessions', status: 'COMPLETED', priority: 'LOW' },
-    { id: 4, title: 'Bug Fixes', description: 'Fix critical bugs in production', status: 'IN_PROGRESS', priority: 'URGENT' },
-    { id: 5, title: 'Database Optimization', description: 'Optimize database queries', status: 'TODO', priority: 'MEDIUM' },
-  ]
-}
+import { motion } from 'framer-motion'
+import Card from '../components/Card'
 
 const Tasks = () => {
-  const { data: tasks, isLoading, error } = useQuery({
-    queryKey: ['tasks'],
-    queryFn: fetchTasks,
-  })
+  const tasks = [
+    { title: 'Design Review', project: 'Website Redesign', priority: 'High', status: 'In Progress', assignee: 'John Doe', dueDate: '2024-02-25' },
+    { title: 'API Documentation', project: 'API Integration', priority: 'Medium', status: 'Todo', assignee: 'Jane Smith', dueDate: '2024-02-28' },
+    { title: 'User Testing', project: 'Mobile App', priority: 'Low', status: 'Completed', assignee: 'Mike Johnson', dueDate: '2024-02-20' },
+    { title: 'Database Backup', project: 'Database Migration', priority: 'High', status: 'In Progress', assignee: 'Sarah Wilson', dueDate: '2024-02-24' },
+    { title: 'Code Review', project: 'Website Redesign', priority: 'Medium', status: 'Todo', assignee: 'Tom Brown', dueDate: '2024-02-27' },
+    { title: 'Deployment Setup', project: 'API Integration', priority: 'High', status: 'In Progress', assignee: 'Emily Davis', dueDate: '2024-02-23' }
+  ]
 
-  const getStatusClass = (status) => {
-    switch (status) {
-      case TASK_STATUS.TODO:
-        return 'status-todo'
-      case TASK_STATUS.IN_PROGRESS:
-        return 'status-in-progress'
-      case TASK_STATUS.COMPLETED:
-        return 'status-completed'
-      case TASK_STATUS.CANCELLED:
-        return 'status-cancelled'
-      default:
-        return 'status-todo'
+  const getPriorityColor = (priority) => {
+    switch (priority) {
+      case 'High': return 'text-red-600 bg-red-100'
+      case 'Medium': return 'text-yellow-600 bg-yellow-100'
+      case 'Low': return 'text-green-600 bg-green-100'
+      default: return 'text-gray-600 bg-gray-100'
     }
   }
 
-  if (isLoading) return <div>Loading tasks...</div>
-  if (error) return <div>Error loading tasks: {error.message}</div>
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'Completed': return 'text-green-600 bg-green-100'
+      case 'In Progress': return 'text-blue-600 bg-blue-100'
+      case 'Todo': return 'text-gray-600 bg-gray-100'
+      default: return 'text-gray-600 bg-gray-100'
+    }
+  }
 
   return (
     <div>
-      <div className="list-header">
-        <h2>Tasks</h2>
-        <button className="btn-add">Add Task</button>
-      </div>
+      <motion.h1 
+        className="text-3xl font-bold mb-6"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        Tasks
+      </motion.h1>
 
-      <div className="list-container">
-        {tasks?.length === 0 ? (
-          <div style={{ padding: '40px', textAlign: 'center' }}>
-            <p>No tasks found. Create your first task!</p>
-          </div>
-        ) : (
-          tasks?.map((task) => (
-            <div key={task.id} className="list-item">
-              <div>
-                <h4>{task.title}</h4>
-                <p>{task.description}</p>
-                <small style={{ color: '#7f8c8d' }}>Priority: {task.priority}</small>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {tasks.map((task, index) => (
+          <motion.div
+            key={task.title}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+          >
+            <Card>
+              <div className="mb-4">
+                <h3 className="text-lg font-semibold mb-2">{task.title}</h3>
+                <p className="text-secondary text-sm mb-3">{task.project}</p>
+                
+                <div className="flex gap-2 mb-3">
+                  <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(task.priority)}`}>
+                    {task.priority}
+                  </span>
+                  <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(task.status)}`}>
+                    {task.status}
+                  </span>
+                </div>
               </div>
-              <div>
-                <span className={`status-badge ${getStatusClass(task.status)}`}>
-                  {task.status.replace('_', ' ')}
-                </span>
+              
+              <div className="flex items-center justify-between text-sm">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white text-xs font-semibold">
+                    {task.assignee.split(' ').map(n => n[0]).join('')}
+                  </div>
+                  <span className="text-secondary">{task.assignee}</span>
+                </div>
+                <div className="text-secondary">
+                  📅 {task.dueDate}
+                </div>
               </div>
-            </div>
-          ))
-        )}
+            </Card>
+          </motion.div>
+        ))}
       </div>
     </div>
   )

@@ -1,32 +1,50 @@
-import React from 'react'
-import { Routes, Route, Navigate } from 'react-router-dom'
-import LoginPage from '../pages/LoginPage.jsx'
-import Dashboard from '../pages/Dashboard.jsx'
-import Projects from '../pages/Projects.jsx'
-import Tasks from '../pages/Tasks.jsx'
-import MainLayout from '../layouts/MainLayout.jsx'
-import ProtectedRoute from '../components/ProtectedRoute.jsx'
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
+import LoginPage from '../pages/LoginPage'
+import Dashboard from '../pages/Dashboard'
+import Projects from '../pages/Projects'
+import Tasks from '../pages/Tasks'
+import MainLayout from '../layouts/MainLayout'
+import ProtectedRoute from '../components/ProtectedRoute'
 
 const AppRoutes = () => {
-  return (
-    <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      <Route
-        path="/"
-        element={
-          <ProtectedRoute>
-            <MainLayout />
-          </ProtectedRoute>
+  const router = createBrowserRouter([
+    {
+      path: '/login',
+      element: <LoginPage />
+    },
+    {
+      path: '/',
+      element: (
+        <ProtectedRoute>
+          <MainLayout />
+        </ProtectedRoute>
+      ),
+      children: [
+        {
+          index: true,
+          element: <Navigate to="/dashboard" replace />
+        },
+        {
+          path: 'dashboard',
+          element: <Dashboard />
+        },
+        {
+          path: 'projects',
+          element: <Projects />
+        },
+        {
+          path: 'tasks',
+          element: <Tasks />
         }
-      >
-        <Route index element={<Navigate to="/dashboard" replace />} />
-        <Route path="dashboard" element={<Dashboard />} />
-        <Route path="projects" element={<Projects />} />
-        <Route path="tasks" element={<Tasks />} />
-      </Route>
-      <Route path="*" element={<Navigate to="/dashboard" replace />} />
-    </Routes>
-  )
+      ]
+    },
+    {
+      path: '*',
+      element: <Navigate to="/dashboard" replace />
+    }
+  ])
+
+  return <RouterProvider router={router} />
 }
 
 export default AppRoutes

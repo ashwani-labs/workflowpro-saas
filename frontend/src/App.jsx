@@ -1,11 +1,22 @@
 import React from 'react'
-import AppRoutes from './routes/AppRoutes.jsx'
+import { Provider } from 'react-redux'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import ThemeProvider from './theme/ThemeProvider'
+import AppRoutes from './routes/AppRoutes'
+import store from './app/store'
+import './styles/global.css'
+
+const queryClient = new QueryClient()
 
 function App() {
   return (
-    <div className="app">
-      <AppRoutes />
-    </div>
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider>
+          <AppRoutes />
+        </ThemeProvider>
+      </QueryClientProvider>
+    </Provider>
   )
 }
 
