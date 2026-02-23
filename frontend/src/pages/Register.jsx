@@ -6,6 +6,9 @@ import {
   Stack,
   TextField,
   Typography,
+  FormControlLabel,
+  Switch,
+  Alert,
 } from '@mui/material'
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
@@ -24,25 +27,54 @@ export default function Register() {
   const navigate = useNavigate()
   const [registerApi, { isLoading }] = useRegisterMutation()
 
-  const [values, setValues] = useState({ name: '', email: '', password: '' })
+  const [values, setValues] = useState({ 
+    name: '', 
+    email: '', 
+    password: '',
+    createOrganization: false,
+    organizationName: '',
+    organizationDomain: ''
+  })
   const [touched, setTouched] = useState({})
   const [error, setError] = useState('')
 
-  const onChange = (key) => (e) => setValues((v) => ({ ...v, [key]: e.target.value }))
+  const onChange = (key) => (e) => {
+    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
+    setValues((v) => ({ ...v, [key]: value }))
+  }
 
   const nameError = touched.name && !values.name
   const emailError = touched.email && !values.email
   const passwordError = touched.password && !values.password
+  const organizationNameError = touched.organizationName && values.createOrganization && !values.organizationName
+  const organizationDomainError = touched.organizationDomain && values.createOrganization && !values.organizationDomain
 
   const onSubmit = async (e) => {
     e.preventDefault()
-    setTouched({ name: true, email: true, password: true })
+    setTouched({ name: true, email: true, password: true, organizationName: true, organizationDomain: true })
     setError('')
 
+    // Basic validation
     if (!values.name || !values.email || !values.password) return
+    
+    // Organization validation if creating organization
+    if (values.createOrganization && (!values.organizationName || !values.organizationDomain)) {
+      setError('Organization name and domain are required when creating an organization')
+      return
+    }
 
     try {
-      const data = await registerApi(values).unwrap()
+      const submitData = {
+        name: values.name,
+        email: values.email,
+        password: values.password,
+        ...(values.createOrganization && {
+          organizationName: values.organizationName,
+          organizationDomain: values.organizationDomain
+        })
+      }
+      
+      const data = await registerApi(submitData).unwrap()
       dispatch(
         login({
           user: data?.user || { name: values.name, email: values.email },
@@ -145,6 +177,55 @@ export default function Register() {
               helperText={passwordError ? 'Password is required' : ' '}
               fullWidth
             />
+
+            <Box sx={{ mt: 1 }}>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={values.createOrganization}
+                    onChange={onChange('createOrganization')}
+                    color="primary"
+                  />
+                }
+                label="Create new organization"
+              />
+            </Box>
+
+            {values.createOrganization && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                transition={{ duration: 0.3 }}
+              >
+                <Stack spacing={2}>
+                  <Alert severity="info" sx={{ mt: 1 }}>
+                    Creating an organization will make you the OWNER with full administrative privileges.
+                  </Alert>
+                  
+                  <TextField
+                    label="Organization Name"
+                    value={values.organizationName}
+                    onChange={onChange('organizationName')}
+                    onBlur={() => setTouched((t) => ({ ...t, organizationName: true }))}
+                    error={Boolean(organizationNameError)}
+                    helperText={organizationNameError ? 'Organization name is required' : ' '}
+                    fullWidth
+                    placeholder="Acme Corp"
+                  />
+
+                  <TextField
+                    label="Organization Domain"
+                    value={values.organizationDomain}
+                    onChange={onChange('organizationDomain')}
+                    onBlur={() => setTouched((t) => ({ ...t, organizationDomain: true }))}
+                    error={Boolean(organizationDomainError)}
+                    helperText={organizationDomainError ? 'Organization domain is required' : 'Unique identifier for your organization'}
+                    fullWidth
+                    placeholder="acme-corp"
+                  />
+                </Stack>
+              </motion.div>
+            )}
 
             {error ? (
               <Typography variant="body2" color="error" sx={{ mt: -1 }}>

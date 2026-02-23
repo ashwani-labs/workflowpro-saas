@@ -17,7 +17,7 @@ public interface UserMapper {
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "organization", ignore = true)
     @Mapping(target = "assignedTasks", ignore = true)
-    @Mapping(target = "role", constant = "USER")
+    @Mapping(target = "role", ignore = true)  // Role will be set in service
     User toEntity(RegisterRequest registerRequest);
 
     @Mapping(target = "token", source = "token")

@@ -21,7 +21,7 @@ const nav = [
   { label: 'Dashboard', to: '/dashboard', icon: <DashboardRounded /> },
   { label: 'Projects', to: '/dashboard?tab=projects', icon: <FolderRounded /> },
   { label: 'Tasks', to: '/dashboard?tab=tasks', icon: <ChecklistRounded /> },
-  { label: 'Team', to: '/dashboard?tab=team', icon: <GroupsRounded /> },
+  { label: 'Team', to: '/team', icon: <GroupsRounded /> },
   { label: 'Settings', to: '/dashboard?tab=settings', icon: <SettingsRounded /> },
 ]
 

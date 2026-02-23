@@ -5,6 +5,7 @@ import Landing from '../pages/Landing'
 import Login from '../pages/Login'
 import Register from '../pages/Register'
 import Dashboard from '../pages/Dashboard'
+import Team from '../pages/Team'
 
 function RequireAuth({ children }) {
   const isAuthenticated = useAppSelector((s) => s.auth.isAuthenticated)
@@ -26,6 +27,14 @@ export default function AppRoutes() {
           element={
             <RequireAuth>
               <Dashboard />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/team"
+          element={
+            <RequireAuth>
+              <Team />
             </RequireAuth>
           }
         />

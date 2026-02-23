@@ -40,8 +40,8 @@ public class User extends BaseEntity {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "role", nullable = false)
-    private UserRole role = UserRole.USER;
+    @Column(name = "role", nullable = false, length = 10)
+    private UserRole role = UserRole.MEMBER;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "organization_id", nullable = false)
@@ -51,8 +51,8 @@ public class User extends BaseEntity {
     private Set<com.workflowpro.modules.task.entity.Task> assignedTasks = new HashSet<>();
 
     public enum UserRole {
-        ADMIN,
-        MANAGER,
-        USER
+        OWNER,    // Can manage organization, invite users, full access
+        ADMIN,    // Can manage projects, tasks, team members  
+        MEMBER    // Can work on assigned tasks, limited access
     }
 }

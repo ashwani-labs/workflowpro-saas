@@ -117,8 +117,8 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(ApiException.class)
-    public ResponseEntity<com.workflowpro.common.response.ApiResponse<Void>> handleApiException(ApiException ex) {
-        com.workflowpro.common.response.ApiResponse<Void> response = new com.workflowpro.common.response.ApiResponse<>(
+    public ResponseEntity<ApiResponse<Void>> handleApiException(ApiException ex) {
+        ApiResponse<Void> response = new ApiResponse<>(
                 false,
                 ex.getMessage(),
                 null,

@@ -1,10 +1,10 @@
 package com.workflowpro.modules.auth.controller;
 
+import com.workflowpro.common.dto.ApiResponse;
 import com.workflowpro.modules.auth.dto.InviteUserRequest;
 import com.workflowpro.modules.auth.dto.InviteUserResponse;
 import com.workflowpro.modules.auth.entity.User;
 import com.workflowpro.modules.auth.service.UserService;
-import com.workflowpro.common.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
